@@ -18,7 +18,7 @@ try {
         secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
       ]]) {
         ansiColor('xterm') {
-          sh 'terraform init'
+          export AWS_S3_FORCE_PATH_STYLE=true && sh 'terraform init'
         }
       }
     }
