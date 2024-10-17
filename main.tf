@@ -6,9 +6,6 @@ provider "aws" {
   endpoints {
     s3 = "http://localhost:4566/"
   }
-  s3 {
-    force_path_style = true
-  }
 }
 
 variable "s3_bucket_name" {
