@@ -15,21 +15,32 @@ variable "s3_bucket_name" {
 }
 
 resource "aws_s3_bucket" "bucket" {
-  count         = "${length(var.s3_bucket_name)}"
-  bucket        = "${element(var.s3_bucket_name, count.index)}"
-  acl           = "private"
-  force_destroy = "true"
-    lifecycle_rule {
-    enabled = true
+  bucket = "${element(var.s3_bucket_name, count.index)}"
+}
 
-    transition {
-      days = 180
-      storage_class = "STANDARD_IA"
-    }
+resource "aws_s3_bucket_server_side_encryption_configuration" "example" {
+  bucket = aws_s3_bucket.bucket.id
 
-    transition {
-      days = 360
-      storage_class = "GLACIER"
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
     }
   }
 }
+
+resource "aws_s3_bucket_public_access_block" "web_app_bucket_accesp" {
+  bucket = aws_s3_bucket.bucket.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+resource "aws_s3_bucket_versioning" "versioning_example" {
+  bucket = aws_s3_bucket.bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
