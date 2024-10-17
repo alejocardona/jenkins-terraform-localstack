@@ -18,7 +18,7 @@ try {
         secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
       ]]) {
         ansiColor('xterm') {
-          export AWS_S3_FORCE_PATH_STYLE=true && sh 'terraform init'
+         sh 'terraform init'
         }
       }
     }
@@ -69,7 +69,7 @@ try {
           secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
         ]]) {
           ansiColor('xterm') {
-            sh 'terraform show'
+            sh 'export AWS_S3_FORCE_PATH_STYLE=true && terraform show'
           }
         }
       }
