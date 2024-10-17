@@ -6,11 +6,6 @@ provider "aws" {
   endpoints {
     s3 = "http://localhost:4566/"
   }
-}
-
-provider "aws" {
-  alias  = "localstack"
-  region = "us-east-1"
   s3 {
     force_path_style = true
   }
