@@ -53,7 +53,7 @@ try {
           AWS_S3_FORCE_PATH_STYLE: "true"
         ]]) {
           ansiColor('xterm') {
-            sh 'terraform apply -auto-approve'
+            sh 'export AWS_S3_FORCE_PATH_STYLE=true && terraform apply -auto-approve'
           }
         }
       }
