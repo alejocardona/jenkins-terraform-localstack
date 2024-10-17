@@ -46,7 +46,7 @@ resource "aws_s3_bucket_public_access_block" "web_app_bucket_accesp" {
 }
 
 resource "aws_s3_bucket_versioning" "versioning_example" {
-  bucket = aws_s3_bucket.bucket.id
+  bucket = aws_s3_bucket.bucket[count.index]
   versioning_configuration {
     status = "Enabled"
   }
