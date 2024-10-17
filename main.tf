@@ -22,12 +22,13 @@ variable "s3_bucket_name" {
 }
 
 resource "aws_s3_bucket" "bucket" {
-  count         = "${length(var.s3_bucket_name)}"
-  bucket = "${element(var.s3_bucket_name, count.index)}"
+  count  = length(var.s3_bucket_name)
+  bucket = element(var.s3_bucket_name, count.index)
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "example" {
-  bucket = aws_s3_bucket.bucket.id
+  count  = length(var.s3_bucket_name)
+  bucket = aws_s3_bucket.bucket[count.index].id
 
   rule {
     apply_server_side_encryption_by_default {
@@ -37,7 +38,8 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "example" {
 }
 
 resource "aws_s3_bucket_public_access_block" "web_app_bucket_accesp" {
-  bucket = aws_s3_bucket.bucket.id
+  count  = length(var.s3_bucket_name)
+  bucket = aws_s3_bucket.bucket[count.index].id
 
   block_public_acls       = true
   block_public_policy     = true
@@ -45,10 +47,11 @@ resource "aws_s3_bucket_public_access_block" "web_app_bucket_accesp" {
   restrict_public_buckets = true
 }
 
-#resource "aws_s3_bucket_versioning" "versioning_example" {
-#  bucket = aws_s3_bucket.bucket[count.index]
-#  versioning_configuration {
-#    status = "Enabled"
-#  }
-#}
+resource "aws_s3_bucket_versioning" "versioning_example" {
+  count  = length(var.s3_bucket_name)
+  bucket = aws_s3_bucket.bucket[count.index].id
 
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
