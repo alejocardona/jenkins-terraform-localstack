@@ -45,10 +45,10 @@ resource "aws_s3_bucket_public_access_block" "web_app_bucket_accesp" {
   restrict_public_buckets = true
 }
 
-resource "aws_s3_bucket_versioning" "versioning_example" {
-  bucket = aws_s3_bucket.bucket[count.index]
-  versioning_configuration {
-    status = "Enabled"
-  }
-}
+#resource "aws_s3_bucket_versioning" "versioning_example" {
+#  bucket = aws_s3_bucket.bucket[count.index]
+#  versioning_configuration {
+#    status = "Enabled"
+#  }
+#}
 
